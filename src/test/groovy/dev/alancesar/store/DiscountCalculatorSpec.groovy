@@ -5,7 +5,12 @@ import spock.lang.Specification
 class DiscountCalculatorSpec extends Specification {
 
     def "Should calculate discount value properly"(float price, Category category, float expectedDiscount) {
-        given:
+
+        given: "a basket with one item"
+        def item = new Item("Test Item", new BigDecimal(price), category)
+        def basket = new Basket().addItem(item)
+
+        when: "create a discount"
         def calculator = new CategoryDiscountCalculator(
                 Category.GAME,
                 new BigDecimal(200),  // minPrice
@@ -13,16 +18,13 @@ class DiscountCalculatorSpec extends Specification {
                 new BigDecimal(0.10)  // discountPercentValue
         )
 
-        def item = new Item("Test Item", new BigDecimal(price), category)
-        def basket = new Basket().addItem(item)
-
-        when:
+        and: "calculate this discount with this basket"
         def discount = calculator.calculate(basket)
 
-        then:
+        then: "discount should be as expected"
         discount == new BigDecimal(expectedDiscount)
 
-        where:
+        where: "the values are"
         price | category           | expectedDiscount
         100   | Category.GAME      | 0
         200   | Category.GAME      | 20
