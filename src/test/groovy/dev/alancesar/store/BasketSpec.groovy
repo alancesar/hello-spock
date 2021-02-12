@@ -18,9 +18,10 @@ class BasketSpec extends Specification {
     }
 
     def "Should apply discount to the basket properly"() {
-        given:
+        given: "a gamer basket"
         def basket = gamerBasket
 
+        and: "a discount"
         def discount = new CategoryDiscountCalculator(
                 Category.GAME,
                 new BigDecimal(200),  // minPrice
@@ -28,10 +29,10 @@ class BasketSpec extends Specification {
                 new BigDecimal(0.10)  // discountPercentValue
         )
 
-        when:
+        when: "apply the discount to the basket"
         basket.applyDiscount(discount)
 
-        then:
+        then: "the discount should be as expected"
         with(basket) {
             it.discount == 20
             it.totalItems == 3
@@ -40,13 +41,13 @@ class BasketSpec extends Specification {
     }
 
     def "Should not apply any discount to the basket"() {
-        given:
+        given: "a gamer basket"
         def basket = gamerBasket
 
-        when:
+        when: "remove the discount"
         basket.removeDiscount()
 
-        then:
+        then: "no one discount should be applied"
         with(basket) {
             discount == 0
             totalItems == 3
