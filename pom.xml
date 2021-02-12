@@ -33,5 +33,9 @@
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
     </properties>
+
+    <build>
+        <testSourceDirectory>src/test/groovy</testSourceDirectory>
+    </build>
     
 </project>
