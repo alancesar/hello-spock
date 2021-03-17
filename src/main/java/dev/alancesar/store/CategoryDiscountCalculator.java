@@ -2,6 +2,7 @@ package dev.alancesar.store;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Collection;
 
 public class CategoryDiscountCalculator implements DiscountCalculator {
     private final Category category;
@@ -20,8 +21,8 @@ public class CategoryDiscountCalculator implements DiscountCalculator {
     }
 
     @Override
-    public BigDecimal calculate(Basket basket) {
-        var totalPrice = basket.getItems().stream()
+    public BigDecimal calculate(Collection<Item> items) {
+        var totalPrice = items.stream()
                 .filter(item -> item.getCategory().equals(category))
                 .map(Item::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

@@ -6,9 +6,8 @@ class DiscountCalculatorSpec extends Specification {
 
     def "Should calculate discount value properly"(float price, Category category, float expectedDiscount) {
 
-        given: "a basket with one item"
-        def item = new Item("Test Item", new BigDecimal(price), category)
-        def basket = new Basket().addItem(item)
+        given: "a list with one item"
+        def items = [new Item("Test Item", new BigDecimal(price), category)]
 
         when: "create a discount"
         def calculator = new CategoryDiscountCalculator(
@@ -18,8 +17,8 @@ class DiscountCalculatorSpec extends Specification {
                 new BigDecimal(0.10)  // discountPercentValue
         )
 
-        and: "calculate this discount with this basket"
-        def discount = calculator.calculate(basket)
+        and: "calculate the discount for these items"
+        def discount = calculator.calculate(items)
 
         then: "discount should be as expected"
         discount == new BigDecimal(expectedDiscount)
